@@ -37,13 +37,11 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
     for (let i = 0; i < nrows; i++) {
       let row = [];
       for (let j = 0; j < ncols; j++) {
-        let col = [];
         if (Math.random() >= chanceLightStartsOn) {
-          col.push(true);
+          row.push(true);
         } else {
-          col.push(false);
+          row.push(false);
         }
-        row.push(col);
       }
       initialBoard.push(row);
     }
@@ -52,7 +50,7 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
   }
 
   function hasWon() {
-    return board.every((row) => row.every((col) => col === true));
+    return board.every((row) => row.every((col) => col === false));
   }
 
   function flipCellsAround(coord) {
@@ -80,13 +78,38 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
     });
   }
 
-  // if the game is won, just show a winning msg & render nothing else
+  if (hasWon()) {
+    return (
+      <div>
+        You Won
+      </div>
+    );
+  }
 
-  // TODO
+  let coordBoard = [];
+  for (let y = 0; y < nrows; y++) {
+    let row = [];
+    for (let x = 0; x < ncols; x++) {
+      let coord = `${y}-${x}`;
+      row.push(<Cell isLit={board[y][x]} flipCellsAroundMe={() => flipCellsAround(coord)} />);
+    }
+    coordBoard.push(<tr>{row}</tr>);
+  }
 
-  // make table board
+  return (
+    <table>
+      <tbody>
+        {coordBoard}
+      </tbody>
+    </table>
+  )
 
-  // TODO
 }
+
+Board.defaultProps = {
+  nrows: 5,
+  ncols: 5,
+  chanceLightStartsOn: 0.5
+};
 
 export default Board;
