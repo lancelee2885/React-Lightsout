@@ -29,3 +29,19 @@ The most sophisticated component. It will hold the state that represents the in-
 
 Cell
 A simpler component. This will simply render a <div>, where the CSS classes will indicate whether this cell is lit or unlit. This is what the user clicks on — but it will need to call a function it receives from the Board, since that will need to update the state.
+
+function changePosition(i) {
+    setCircles(circles => {
+      // create copy of state array
+      const circlesCopy = [...circles];
+      // create copy of object at idx i,
+      // then change copy
+      circlesCopy[i] = {
+        ...circles[i],
+        x: randRange(),
+        y: randRange(),
+      };
+      // return circlesCopy;
+      return circlesCopy;
+    });
+  }
